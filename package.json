@@ -1,0 +1,112 @@
+{
+    "name": "nagarpalika-survey",
+    "version": "3.6.0",
+    "private": true,
+    "dependencies": {
+        "@emotion/cache": "^11.10.5",
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5",
+        "@hookform/resolvers": "^2.9.10",
+        "@mui/icons-material": "^5.11.0",
+        "@mui/lab": "^5.0.0-alpha.115",
+        "@mui/material": "^5.11.4",
+        "@mui/system": "^5.11.4",
+        "@mui/utils": "^5.11.2",
+        "@mui/x-data-grid": "^5.17.18",
+        "@mui/x-date-pickers": "^5.0.13",
+        "@react-google-maps/api": "^2.20.3",
+        "@reduxjs/toolkit": "^1.9.1",
+        "@tabler/icons": "^1.119.0",
+        "axios": "1.2.1",
+        "chance": "^1.1.9",
+        "csstype": "^3.1.1",
+        "date-fns": "^2.30.0",
+        "detect-browser": "^5.3.0",
+        "formik": "^2.2.9",
+        "framer-motion": "^8.4.2",
+        "html2canvas": "^1.4.1",
+        "jspdf": "^2.5.2",
+        "jwt-decode": "^3.1.2",
+        "lodash": "^4.17.21",
+        "lottie-react": "^2.4.0",
+        "material-ui-popup-state": "^5.0.4",
+        "notistack": "^3.0.1",
+        "prop-types": "^15.8.1",
+        "qrcode.react": "^4.1.0",
+        "react": "^18.2.0",
+        "react-18-image-lightbox": "^5.1.4",
+        "react-apexcharts": "^1.4.0",
+        "react-app-rewired": "^2.2.1",
+        "react-dom": "^18.2.0",
+        "react-dropzone": "^14.2.3",
+        "react-hook-form": "^7.42.0",
+        "react-intl": "^6.2.5",
+        "react-markdown": "^8.0.4",
+        "react-perfect-scrollbar": "^1.5.8",
+        "react-phone-input-2": "^2.15.1",
+        "react-redux": "^8.0.5",
+        "react-router-dom": "^6.14.1",
+        "react-scripts": "^5.0.1",
+        "react-signature-canvas": "^1.0.6",
+        "react-slick": "^0.29.0",
+        "react-timer-hook": "^3.0.5",
+        "react18-input-otp": "^1.1.2",
+        "redux": "^4.2.0",
+        "redux-persist": "^6.0.0",
+        "remark-gfm": "^3.0.1",
+        "sass": "^1.57.1",
+        "slick-carousel": "^1.8.1",
+        "stylis-plugin-rtl": "^2.1.1",
+        "web-vitals": "^3.1.1",
+        "xlsx": "^0.18.5",
+        "yup": "^0.32.11"
+    },
+    "scripts": {
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "lint": "eslint --ext .js,.jsx ./src",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-react"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@babel/core": "^7.21.4",
+        "@babel/eslint-parser": "^7.21.3",
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "eslint": "^8.38.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-config-react-app": "^7.0.1",
+        "eslint-plugin-flowtype": "^8.0.3",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-jsx-a11y": "^6.7.1",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-react": "^7.32.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "immutable": "^4.3.0",
+        "prettier": "^2.8.7",
+        "react-error-overlay": "6.0.11",
+        "sass": "^1.63.6"
+    }
+}
