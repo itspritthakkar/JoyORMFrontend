@@ -12,7 +12,7 @@ const icons = { IconHome };
 const pages = {
     id: 'management',
     role: ['Manager'],
-    // title: <FormattedMessage id="management" />,
+    title: <FormattedMessage id="dashboard" />,
     // caption: <FormattedMessage id="pages-caption" />,
     type: 'group',
     children: [

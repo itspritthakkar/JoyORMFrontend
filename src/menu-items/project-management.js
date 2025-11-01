@@ -10,9 +10,9 @@ const icons = { Icon2fa, IconAward, IconDatabase, IconUser, IconCheckupList };
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const projectManagement = {
-    id: 'two-factor-requests',
+    id: 'authentication',
     role: ['Manager'],
-    title: <FormattedMessage id="two-factor-requests" />,
+    title: <FormattedMessage id="authentication" />,
     type: 'group',
     children: [
         {

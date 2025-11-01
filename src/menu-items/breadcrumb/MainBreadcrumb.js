@@ -48,25 +48,11 @@ const pages = {
             url: '/dashboard'
         },
         {
-            id: 'projects',
-            title: <FormattedMessage id="projects" />,
+            id: 'two-factor-requests',
+            title: <FormattedMessage id="two-factor-requests" />,
             icon: icons.ListAltOutlinedIcon,
             type: 'item',
-            url: '/dashboard/projects'
-        },
-        {
-            id: 'wards',
-            title: <FormattedMessage id="wards" />,
-            icon: icons.ListAltOutlinedIcon,
-            type: 'item',
-            url: '/dashboard/wards'
-        },
-        {
-            id: 'survey',
-            title: <FormattedMessage id="survey" />,
-            icon: icons.ListAltOutlinedIcon,
-            type: 'item',
-            url: ['/dashboard/survey', '/dashboard/survey/map-view']
+            url: '/dashboard/two-factor-requests'
         },
         {
             id: 'users',
@@ -74,13 +60,6 @@ const pages = {
             icon: icons.ListAltOutlinedIcon,
             type: 'item',
             url: '/dashboard/users'
-        },
-        {
-            id: 'reports',
-            title: <FormattedMessage id="reports" />,
-            icon: icons.ListAltOutlinedIcon,
-            type: 'item',
-            url: '/dashboard/reports'
         },
         {
             id: 'account',

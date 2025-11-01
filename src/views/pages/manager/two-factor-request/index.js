@@ -201,7 +201,7 @@ export default function TwoFactorRequest() {
     };
 
     return (
-        <MainCard>
+        <MainCard sx={{ minHeight: '83vh' }}>
             <Paper sx={{ width: '100%', mb: 2, p: 1 }}>
                 <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="h3">Two Factor Requests</Typography>

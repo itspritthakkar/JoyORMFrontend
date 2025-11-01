@@ -400,7 +400,7 @@ const UsersPage = () => {
     };
 
     return (
-        <MainCard key={'background-main'} sx={{ minHeight: '70vh' }}>
+        <MainCard key={'background-main'} sx={{ minHeight: '83vh' }}>
             {userList.isLoaded && rolesList.isLoaded ? (
                 <>
                     <Grid container spacing={2} justifyContent="space-between" alignItems="center">

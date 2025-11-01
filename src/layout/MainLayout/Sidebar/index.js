@@ -2,7 +2,7 @@ import { memo, useMemo } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Drawer, useMediaQuery } from '@mui/material';
+import { Box, Drawer, IconButton, Typography, useMediaQuery } from '@mui/material';
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -20,11 +20,16 @@ import { drawerWidth } from 'store/constant';
 
 import { useDispatch, useSelector } from 'store';
 import { openDrawer } from 'store/slices/menu';
+import { IconLogout, IconUser } from '@tabler/icons';
+import { useNavigate } from 'react-router-dom';
+import useAuth from 'hooks/useAuth';
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 
 const Sidebar = () => {
     const theme = useTheme();
+    const { logout } = useAuth();
+    const navigate = useNavigate();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -33,25 +38,72 @@ const Sidebar = () => {
 
     const { drawerType } = useConfig();
 
+    const handleLogout = async () => {
+        try {
+            await logout();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const logo = useMemo(
         () => (
-            <Box sx={{ display: 'flex', p: 2, mx: 'auto' }}>
+            <Box sx={{ display: 'flex', p: 2, justifyContent: 'space-between', alignItems: 'center' }}>
                 <LogoSection />
+                <Box sx={{ backgroundColor: theme.palette.secondary.light, borderRadius: '12px' }}>
+                    <IconButton onClick={() => navigate('/manager/account')}>
+                        <IconUser color={theme.palette.secondary.dark} />
+                    </IconButton>
+                </Box>
             </Box>
         ),
-        []
+        [navigate, theme.palette.secondary.dark, theme.palette.secondary.light]
     );
 
     const drawerContent = (
-        <>
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <MenuList />
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    p: 1,
+                    justifyContent: 'flex-start',
+                    position: 'sticky',
+                    bottom: 0,
+                    background: theme.palette.background.default,
+                    cursor: 'pointer',
+                    borderTop: `1px solid ${theme.palette.divider}`
+                }}
+                onClick={handleLogout}
+            >
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        width: '100%',
+                        height: '40px',
+                        p: 2,
+                        borderRadius: '8px',
+                        color: theme.palette.text.primary,
+                        '&:hover': { background: theme.palette.secondary.light, color: theme.palette.secondary.dark }
+                    }}
+                >
+                    <IconLogout size={20} style={{ color: 'inherit' }} />
+                    <Typography variant="body2" sx={{ color: 'inherit' }}>
+                        Logout
+                    </Typography>
+                </Box>
+            </Box>
             {/* {layout === LAYOUT_CONST.VERTICAL_LAYOUT && drawerOpen && <MenuCard />} */}
             {/* {layout === LAYOUT_CONST.VERTICAL_LAYOUT && drawerOpen && (
                 <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
                     <Chip label={process.env.REACT_APP_VERSION} disabled chipcolor="secondary" size="small" sx={{ cursor: 'pointer' }} />
                 </Stack>
             )} */}
-        </>
+        </Box>
     );
 
     const drawerSX = {
@@ -64,7 +116,7 @@ const Sidebar = () => {
         () => (
             <>
                 {matchDownMd ? (
-                    <Box sx={drawerSX}>{drawerContent}</Box>
+                    <Box sx={{ height: '100%', ...drawerSX }}>{drawerContent}</Box>
                 ) : (
                     <PerfectScrollbar
                         component="div"
