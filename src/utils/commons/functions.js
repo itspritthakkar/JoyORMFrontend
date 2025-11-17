@@ -138,3 +138,10 @@ export const formatDateWithSuffix = (date) => {
 
     return `${day}${suffix(day)} ${month} ${year}`;
 };
+
+export function a11yProps(index, tabName) {
+    return {
+        id: `${tabName}-${index}`,
+        'aria-controls': `${tabName}-tabpanel-${index}`
+    };
+}

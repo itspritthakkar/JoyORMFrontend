@@ -55,6 +55,20 @@ const pages = {
             url: '/dashboard/two-factor-requests'
         },
         {
+            id: 'approvals',
+            title: <FormattedMessage id="approvals" />,
+            icon: icons.ListAltOutlinedIcon,
+            type: 'item',
+            url: '/dashboard/approvals'
+        },
+        {
+            id: 'task-form',
+            title: <FormattedMessage id="task-form" />,
+            icon: icons.ListAltOutlinedIcon,
+            type: 'item',
+            url: '/dashboard/task-form'
+        },
+        {
             id: 'users',
             title: <FormattedMessage id="users" />,
             icon: icons.ListAltOutlinedIcon,

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Grid, Skeleton, TableRow } from '@mui/material';
+import { Box, Grid, Skeleton, TableRow } from '@mui/material';
 import { motion } from 'framer-motion';
 import { gridSpacing } from 'store/constant';
 
@@ -38,3 +38,20 @@ export const SkeletonTableOnly = (props) => (
         <Skeleton variant="rounded" animation="wave" height={400} sx={{ borderRadius: '10px' }} {...props} />
     </>
 );
+
+export function CustomTabPanel(props) {
+    const { children, value, index, tabName, ...other } = props;
+
+    return (
+        <div role="tabpanel" hidden={value !== index} id={`${tabName}panel-${index}`} aria-labelledby={`${tabName}-${index}`} {...other}>
+            {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+        </div>
+    );
+}
+
+CustomTabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+    tabName: PropTypes.string
+};

@@ -240,5 +240,8 @@
     "Record-submitted-successfully": "Record submitted successfully",
     "Record-has-been-submitted-successfully": "Record has been submitted successfully",
     "Refrence-number": "Refrence number",
-    "START-NEW-SURVEY": "START-NEW-SURVEY"
+    "START-NEW-SURVEY": "START-NEW-SURVEY",
+    "approvals": "Approvals",
+    "task-form": "Task Form",
+    "core": "Core"
 }

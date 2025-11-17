@@ -6,6 +6,7 @@ import LoginRoutes from './LoginRoutes';
 import MainRoutes from './MainRoutes';
 import UserRoutes from './UserRoutes';
 import GuestRoutes from './GuestRoutes';
+import CoreRoutes from './CoreRoutes';
 // import SharedRoutes from './SharedRoutes';
 
 // ==============================|| ROUTING RENDER ||============================== //
@@ -15,6 +16,7 @@ export default function ThemeRoutes() {
         LoginRoutes,
         AuthenticationRotes,
         MainRoutes,
+        CoreRoutes,
         UserRoutes,
         // SharedRoutes
         GuestRoutes
