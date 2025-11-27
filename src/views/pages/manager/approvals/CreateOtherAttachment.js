@@ -3,11 +3,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axiosExtended from 'utils/axios';
+import { useOtherAttachmentsContext } from '../task/contexts/OtherAttachmentsContext';
 
-const CreateOtherAttachment = ({ open, setOpen, addItem, setError }) => {
+const CreateOtherAttachment = ({ open, setOpen, setError }) => {
+    const { setItems } = useOtherAttachmentsContext();
     const [saving, setSaving] = useState(false);
     const [label, setLabel] = useState('');
     const [file, setFile] = useState(null);
+
+    const addItem = (item) => {
+        setItems((prev) => [item, ...prev]);
+    };
 
     const handleClose = () => {
         setOpen(false);
@@ -114,7 +120,6 @@ const CreateOtherAttachment = ({ open, setOpen, addItem, setError }) => {
 CreateOtherAttachment.propTypes = {
     open: PropTypes.bool.isRequired,
     setOpen: PropTypes.func.isRequired,
-    addItem: PropTypes.func.isRequired,
     setError: PropTypes.func.isRequired
 };
 

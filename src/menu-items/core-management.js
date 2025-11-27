@@ -2,10 +2,10 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconSquareRoundedCheck, IconListDetails } from '@tabler/icons';
+import { IconSquareRoundedCheck, IconListDetails, IconSitemap } from '@tabler/icons';
 
 // constant
-const icons = { IconSquareRoundedCheck, IconListDetails };
+const icons = { IconSquareRoundedCheck, IconListDetails, IconSitemap };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
@@ -15,6 +15,13 @@ const coreManagement = {
     title: <FormattedMessage id="core" />,
     type: 'group',
     children: [
+        {
+            id: 'tasks',
+            title: <FormattedMessage id="tasks" />,
+            icon: icons.IconSitemap,
+            type: 'item',
+            url: '/dashboard/tasks'
+        },
         {
             id: 'approvals',
             title: <FormattedMessage id="approvals" />,

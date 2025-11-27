@@ -69,6 +69,13 @@ const pages = {
             url: '/dashboard/task-form'
         },
         {
+            id: 'tasks',
+            title: <FormattedMessage id="tasks" />,
+            icon: icons.ListAltOutlinedIcon,
+            type: 'item',
+            url: '/dashboard/tasks'
+        },
+        {
             id: 'users',
             title: <FormattedMessage id="users" />,
             icon: icons.ListAltOutlinedIcon,
