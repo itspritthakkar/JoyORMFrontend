@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import { useOtherAttachmentValuesContext } from '../../contexts/OtherAttachmentValuesContext';
 import { useMemo } from 'react';
+import { useOtherAttachmentValuesContext } from '../../contexts/OtherAttachmentValuesContext';
 import { useOtherAttachmentsContext } from 'contexts/OtherAttachmentsContext';
 
 const OtherAttachmentsColumn = () => {

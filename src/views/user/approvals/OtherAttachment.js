@@ -1,4 +1,3 @@
-// ...existing code...
 import React, { useEffect, useState } from 'react';
 import axiosExtended from 'utils/axios';
 import {
@@ -15,9 +14,9 @@ import {
     Button
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
-import CreateApplicationType from './CreateApplicationType';
+import CreateOtherAttachment from './CreateOtherAttachment';
 
-const ApplicationType = () => {
+const OtherAttachment = () => {
     const theme = useTheme();
 
     const [items, setItems] = useState([]);
@@ -28,10 +27,10 @@ const ApplicationType = () => {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const fetchApplicationTypes = async () => {
+        const fetchOtherAttachments = async () => {
             try {
                 setLoading(true);
-                const { data } = await axiosExtended.get('/ApplicationType');
+                const { data } = await axiosExtended.get('/OtherAttachment');
                 setItems(Array.isArray(data) ? data : []);
             } catch (err) {
                 setError(err?.message || 'Failed to load');
@@ -40,7 +39,7 @@ const ApplicationType = () => {
             }
         };
 
-        fetchApplicationTypes();
+        fetchOtherAttachments();
     }, []);
 
     const handleOpen = () => setOpen(true);
@@ -49,19 +48,10 @@ const ApplicationType = () => {
         setItems((prev) => [item, ...prev]);
     };
 
-    const handleApprove = async (id) => {
-        try {
-            const { data } = await axiosExtended.post(`/ApplicationType/approve/${id}`);
-            setItems((prev) => prev.map((item) => (item.id === id ? { ...item, ...data } : item)));
-        } catch (err) {
-            setError(err?.message || 'Failed to approve');
-        }
-    };
-
     return (
         <Box>
             <Button variant="contained" sx={{ mb: 1 }} startIcon={<Add />} onClick={handleOpen}>
-                Add Application Type
+                Add Other Attachment
             </Button>
 
             <TableContainer>
@@ -76,6 +66,7 @@ const ApplicationType = () => {
                             }}
                         >
                             <TableCell>Label</TableCell>
+                            <TableCell>Attachment</TableCell>
                             <TableCell>Created By</TableCell>
                             <TableCell>Approved By</TableCell>
                             <TableCell>Actions</TableCell>
@@ -85,7 +76,7 @@ const ApplicationType = () => {
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={3} align="center">
+                                <TableCell colSpan={5} align="center">
                                     <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
                                         <CircularProgress size={20} />
                                         <Typography>Loading...</Typography>
@@ -94,13 +85,13 @@ const ApplicationType = () => {
                             </TableRow>
                         ) : error ? (
                             <TableRow>
-                                <TableCell colSpan={3} align="center">
+                                <TableCell colSpan={5} align="center">
                                     <Typography color="error">Error: {error}</Typography>
                                 </TableCell>
                             </TableRow>
                         ) : items.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={3} align="center">
+                                <TableCell colSpan={5} align="center">
                                     <Typography>No records found.</Typography>
                                 </TableCell>
                             </TableRow>
@@ -111,11 +102,22 @@ const ApplicationType = () => {
                                 return (
                                     <TableRow key={it.id || `${it.label}-${Math.random()}`}>
                                         <TableCell>{it.label || '-'}</TableCell>
+                                        <TableCell>
+                                            {it.attachmentPath && (
+                                                <Button
+                                                    variant="outlined"
+                                                    size="small"
+                                                    onClick={() => window.open(it.attachmentPath, '_blank')}
+                                                >
+                                                    Preview
+                                                </Button>
+                                            )}
+                                        </TableCell>
                                         <TableCell>{createdBy}</TableCell>
                                         <TableCell>{approvedBy}</TableCell>
                                         <TableCell>
-                                            {!it.approvedById && (
-                                                <Button variant="contained" color="success" onClick={() => handleApprove(it.id)}>
+                                            {!approvedBy && (
+                                                <Button variant="contained" color="success">
                                                     Approve
                                                 </Button>
                                             )}
@@ -128,10 +130,9 @@ const ApplicationType = () => {
                 </Table>
             </TableContainer>
 
-            <CreateApplicationType open={open} setOpen={setOpen} addItem={addItem} setError={setError} />
+            <CreateOtherAttachment open={open} setOpen={setOpen} addItem={addItem} setError={setError} />
         </Box>
     );
 };
 
-export default ApplicationType;
-// ...existing code...
+export default OtherAttachment;

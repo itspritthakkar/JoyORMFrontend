@@ -4,9 +4,9 @@ import TaskView from './TaskView';
 import { CreateTaskProvider } from './contexts/CreateTaskContext';
 import { TaskHelperProvider } from './contexts/TaskHelperContext';
 import { EditTaskProvider } from './contexts/EditTaskContext';
-import { OtherAttachmentValuesProvider } from './contexts/OtherAttachmentValuesContext';
 import { ClientDataProvider } from './contexts/ClientDataContext';
 import { TaskLogProvider } from './contexts/TaskLogContext';
+import { OtherAttachmentValuesProvider } from './contexts/OtherAttachmentValuesContext';
 
 const TaskManager = () => {
     return (

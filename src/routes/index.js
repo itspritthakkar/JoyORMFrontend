@@ -5,7 +5,7 @@ import AuthenticationRotes from './AuthenticationRoutes';
 import LoginRoutes from './LoginRoutes';
 import MainRoutes from './MainRoutes';
 import UserRoutes from './UserRoutes';
-import GuestRoutes from './GuestRoutes';
+// import GuestRoutes from './GuestRoutes';
 import CoreRoutes from './CoreRoutes';
 // import SharedRoutes from './SharedRoutes';
 
@@ -17,8 +17,8 @@ export default function ThemeRoutes() {
         AuthenticationRotes,
         MainRoutes,
         CoreRoutes,
-        UserRoutes,
+        UserRoutes
         // SharedRoutes
-        GuestRoutes
+        // GuestRoutes
     ]);
 }

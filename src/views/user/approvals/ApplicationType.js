@@ -49,15 +49,6 @@ const ApplicationType = () => {
         setItems((prev) => [item, ...prev]);
     };
 
-    const handleApprove = async (id) => {
-        try {
-            const { data } = await axiosExtended.post(`/ApplicationType/approve/${id}`);
-            setItems((prev) => prev.map((item) => (item.id === id ? { ...item, ...data } : item)));
-        } catch (err) {
-            setError(err?.message || 'Failed to approve');
-        }
-    };
-
     return (
         <Box>
             <Button variant="contained" sx={{ mb: 1 }} startIcon={<Add />} onClick={handleOpen}>
@@ -114,8 +105,8 @@ const ApplicationType = () => {
                                         <TableCell>{createdBy}</TableCell>
                                         <TableCell>{approvedBy}</TableCell>
                                         <TableCell>
-                                            {!it.approvedById && (
-                                                <Button variant="contained" color="success" onClick={() => handleApprove(it.id)}>
+                                            {!approvedBy && (
+                                                <Button variant="contained" color="success">
                                                     Approve
                                                 </Button>
                                             )}

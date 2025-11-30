@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Box, useTheme, Button, Checkbox, IconButton } from '@mui/material';
 import { Add } from '@mui/icons-material';
-import CreateOtherAttachment from 'views/pages/manager/approvals/CreateOtherAttachment';
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
-import { useOtherAttachmentValuesContext } from 'views/pages/manager/task/contexts/OtherAttachmentValuesContext';
+import CreateOtherAttachment from 'views/user/approvals/CreateOtherAttachment';
+import { useOtherAttachmentValuesContext } from 'views/user/task/contexts/OtherAttachmentValuesContext';
 import { useOtherAttachmentsContext } from 'contexts/OtherAttachmentsContext';
 
 const Page2 = () => {
     const theme = useTheme();
 
-    const { items, loadingItems } = useOtherAttachmentsContext();
+    const { loadingItems, items } = useOtherAttachmentsContext();
     const { loadingValues, selectedItemsLocal, setSelectedItemsLocal, handleSave } = useOtherAttachmentValuesContext();
 
     // dialog
@@ -35,7 +35,7 @@ const Page2 = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     overflowY: 'auto',
-                    height: '30vh',
+                    height: '40vh',
                     maxWidth: { xs: '100%', md: 350 }
                 }}
             >

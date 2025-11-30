@@ -12,6 +12,7 @@ import ThemeCustomization from 'themes';
 
 // auth provider
 import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
+import { OtherAttachmentsProvider } from 'contexts/OtherAttachmentsContext';
 // import { FirebaseProvider as AuthProvider } from 'contexts/FirebaseContext';
 // import { AWSCognitoProvider as AuthProvider } from 'contexts/AWSCognitoContext';
 // import { Auth0Provider as AuthProvider } from 'contexts/Auth0Context';
@@ -24,12 +25,14 @@ const App = () => (
         <Locales>
             <NavigationScroll>
                 <AuthProvider>
-                    <>
-                        <Notistack>
-                            <Routes />
-                            <Snackbar />
-                        </Notistack>
-                    </>
+                    <OtherAttachmentsProvider>
+                        <>
+                            <Notistack>
+                                <Routes />
+                                <Snackbar />
+                            </Notistack>
+                        </>
+                    </OtherAttachmentsProvider>
                 </AuthProvider>
             </NavigationScroll>
         </Locales>

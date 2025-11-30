@@ -7,7 +7,7 @@ export const BASE_PATH = '';
 export const DASHBOARD_PATH = '/dashboard/two-factor-requests';
 export const VIEWER_DASHBOARD_PATH = '/dashboard/survey';
 // export const USER_DASHBOARD_PATH = '/app/survey';
-export const USER_DASHBOARD_PATH = '/coming-soon';
+export const USER_DASHBOARD_PATH = '/app/tasks';
 export const HORIZONTAL_MAX_ITEM = 7;
 
 const config = {
