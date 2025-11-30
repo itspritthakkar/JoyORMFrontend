@@ -5,17 +5,23 @@ import { CreateTaskProvider } from './contexts/CreateTaskContext';
 import { TaskHelperProvider } from './contexts/TaskHelperContext';
 import { EditTaskProvider } from './contexts/EditTaskContext';
 import { OtherAttachmentsProvider } from './contexts/OtherAttachmentsContext';
+import { ClientDataProvider } from './contexts/ClientDataContext';
+import { TaskLogProvider } from './contexts/TaskLogContext';
 
 const TaskManager = () => {
     return (
         <TaskProvider>
             <EditTaskProvider>
                 <OtherAttachmentsProvider>
-                    <TaskHelperProvider>
-                        <CreateTaskProvider>
-                            <TaskView />
-                        </CreateTaskProvider>
-                    </TaskHelperProvider>
+                    <TaskLogProvider>
+                        <ClientDataProvider>
+                            <TaskHelperProvider>
+                                <CreateTaskProvider>
+                                    <TaskView />
+                                </CreateTaskProvider>
+                            </TaskHelperProvider>
+                        </ClientDataProvider>
+                    </TaskLogProvider>
                 </OtherAttachmentsProvider>
             </EditTaskProvider>
         </TaskProvider>

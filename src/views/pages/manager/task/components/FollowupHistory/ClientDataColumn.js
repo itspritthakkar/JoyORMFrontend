@@ -1,6 +1,20 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { useClientDataContext } from '../../contexts/ClientDataContext';
+import { useMemo } from 'react';
 
 const ClientDataColumn = () => {
+    const { clientDataFields, valuesResponse } = useClientDataContext();
+
+    const clientDataFieldsMap = useMemo(() => {
+        const map = {};
+
+        clientDataFields.forEach((clientDataField) => {
+            map[clientDataField.id] = clientDataField.label;
+        });
+
+        return map;
+    }, [clientDataFields]);
+
     return (
         <Box
             sx={{
@@ -15,22 +29,18 @@ const ClientDataColumn = () => {
             </Typography>
 
             <Box sx={{ overflowY: 'auto', maxHeight: '110px' }}>
-                <Typography fontSize={12}>61123456789</Typography>
-                <Typography fontSize={12}>911234567891</Typography>
-                <Typography fontSize={12}>a@gmail.com</Typography>
-                <Divider sx={{ my: 0.5 }} />
-
-                <Typography fontSize={12}>
-                    Australian Address: <span style={{ color: 'green' }}>123 XYZ STREET, CITY, STATE PIN 1234</span>
-                </Typography>
-
-                <Typography fontSize={12}>
-                    Australian Address Proof: <span style={{ color: 'green' }}>Received</span>
-                </Typography>
-
-                <Typography fontSize={12} color="red">
-                    Police Station:
-                </Typography>
+                {valuesResponse.fields &&
+                    valuesResponse.fields.length > 0 &&
+                    valuesResponse.fields.map((valueItem) => (
+                        <Typography key={valueItem.clientDataId} fontSize={12} sx={{ mb: 0.5 }}>
+                            {valueItem.isMissing && !valueItem.isAvailable ? (
+                                <span style={{ color: 'red' }}>{clientDataFieldsMap[valueItem.clientDataId]}</span>
+                            ) : (
+                                clientDataFieldsMap[valueItem.clientDataId]
+                            )}
+                            : <span style={{ color: 'green' }}>{valueItem.value}</span>
+                        </Typography>
+                    ))}
             </Box>
         </Box>
     );

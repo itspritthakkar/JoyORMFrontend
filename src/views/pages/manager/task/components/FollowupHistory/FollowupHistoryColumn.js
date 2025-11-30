@@ -1,6 +1,18 @@
 import { Box, Typography } from '@mui/material';
+import { useTaskLogContext } from '../../contexts/TaskLogContext';
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months start at 0
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+}
 
 const FollowupHistoryColumn = () => {
+    const { taskLog } = useTaskLogContext();
     return (
         <Box
             sx={{
@@ -15,7 +27,15 @@ const FollowupHistoryColumn = () => {
             </Typography>
 
             <Box sx={{ overflowY: 'auto', maxHeight: '110px' }}>
-                <Typography fontSize={12}>11/09/2025: E-mail</Typography>
+                {taskLog.map((log) => (
+                    <Typography key={log.id} fontSize={12}>
+                        {formatDate(log.createdAt)}: Received -{' '}
+                        <span style={{ color: 'green' }}>
+                            {log.clientDataLabel}: {log.clientDataValue}
+                        </span>
+                    </Typography>
+                ))}
+                {/* <Typography fontSize={12}>11/09/2025: E-mail</Typography>
                 <Typography fontSize={12}>11/09/2025: Whatsapp</Typography>
                 <Typography fontSize={12}>
                     11/09/2025: Received - <span style={{ color: 'green' }}>Australian Address: 123 XYZ STREET, CITY, STATE PIN 1234</span>
@@ -23,7 +43,7 @@ const FollowupHistoryColumn = () => {
                 <Typography fontSize={12}>12/09/2025: Call</Typography>
                 <Typography fontSize={12}>
                     12/09/2025: Received - <span style={{ color: 'green' }}>Australian Address Proof: Received</span>
-                </Typography>
+                </Typography> */}
             </Box>
         </Box>
     );

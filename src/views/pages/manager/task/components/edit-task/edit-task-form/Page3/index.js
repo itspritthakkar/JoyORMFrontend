@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Grid, Typography, IconButton, TextField, Button, useTheme } from '@mui/material';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
-import { showAxiosSuccessEnquebar } from 'utils/commons/functions';
-import { useEditTaskContext } from 'views/pages/manager/task/contexts/EditTaskContext';
-import axiosExtended from 'utils/axios';
 import CreateClientDataDialog from './CreateClientDataDialog';
+import { useClientDataContext } from 'views/pages/manager/task/contexts/ClientDataContext';
 
 const COLORS = {
     bluePill: '#d9f2fb',
@@ -19,71 +17,10 @@ const COLORS = {
 export default function ClientDataExact() {
     const theme = useTheme();
 
-    const [clientDataFields, setClientDataFields] = useState([]);
-    const [values, setValues] = useState({});
-    const [isMissing, setIsMissing] = useState({});
-    const [isAvailable, setIsAvailable] = useState({});
+    const { clientDataFields, setClientDataFields, values, setValues, isMissing, setIsMissing, isAvailable, setIsAvailable, handleSave } =
+        useClientDataContext();
+
     const [openCreate, setOpenCreate] = useState(false);
-
-    const { currentTask } = useEditTaskContext();
-
-    // ------------------ LOAD ------------------
-    useEffect(() => {
-        const load = async () => {
-            try {
-                // Get ClientData
-                const { data } = await axiosExtended.get('/ClientData');
-                const sorted = [...data].sort((a, b) => (a.order || 0) - (b.order || 0));
-                setClientDataFields(sorted);
-
-                // Get ClientDataValue for task
-                const res = await axiosExtended.get(`/ClientDataValue/${currentTask.data.id}`);
-
-                if (res.data?.fields) {
-                    const missingObj = {};
-                    const availObj = {};
-                    const valObj = {};
-
-                    res.data.fields.forEach((f) => {
-                        missingObj[f.clientDataId] = f.isMissing ?? null;
-                        availObj[f.clientDataId] = f.isAvailable ?? null;
-                        valObj[f.clientDataId] = f.value ?? '';
-                    });
-
-                    setIsMissing(missingObj);
-                    setIsAvailable(availObj);
-                    setValues(valObj);
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
-        load();
-    }, [currentTask.data.id]);
-
-    // ------------------ BUILD PAYLOAD ------------------
-    const buildPayload = () => {
-        return {
-            taskItemId: currentTask.data.id,
-            fields: clientDataFields.map((f) => ({
-                clientDataId: f.id,
-                isMissing: isMissing[f.id] ?? null,
-                isAvailable: isAvailable[f.id] ?? null,
-                value: values[f.id] ?? null
-            }))
-        };
-    };
-
-    // ------------------ SAVE ------------------
-    const save = async () => {
-        try {
-            await axiosExtended.post('/ClientDataValue', buildPayload());
-            showAxiosSuccessEnquebar('Saved successfully!');
-        } catch (err) {
-            console.error(err);
-        }
-    };
 
     const copyToClipboard = (text) => {
         navigator.clipboard?.writeText(text);
@@ -213,10 +150,10 @@ export default function ClientDataExact() {
 
             {/* Save Buttons */}
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
-                <Button variant="contained" color="primary" onClick={save}>
+                <Button variant="contained" color="primary" onClick={handleSave}>
                     Save
                 </Button>
-                <Button variant="contained" color="primary" onClick={save}>
+                <Button variant="contained" color="primary" onClick={handleSave}>
                     Save & Continue
                 </Button>
             </Box>
