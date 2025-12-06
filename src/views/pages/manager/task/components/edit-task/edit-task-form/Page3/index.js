@@ -116,8 +116,6 @@ const Page3 = () => {
                                                 }}
                                             />
                                         )}
-
-                                        {!available && !missing && <Box sx={{ height: 40, bgcolor: COLORS.bluePill, borderRadius: 1 }} />}
                                     </Box>
 
                                     {/* ParaText when Missing */}

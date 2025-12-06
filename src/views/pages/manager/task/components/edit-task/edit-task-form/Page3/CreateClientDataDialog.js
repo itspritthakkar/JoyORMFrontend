@@ -7,10 +7,11 @@ import PropTypes from 'prop-types';
 
 export default function CreateClientDataDialog({ open, onClose, onCreated }) {
     const [label, setLabel] = useState('');
+    const [paraText, setParaText] = useState('');
 
     const handleSave = async () => {
         try {
-            const payload = { label }; // correct DTO (paraText + isDeletable not included)
+            const payload = { label, paraText }; // correct DTO (paraText + isDeletable not included)
             const { data } = await axiosExtended.post('/ClientData', payload);
 
             showAxiosSuccessEnquebar('Client data field added');
@@ -34,6 +35,7 @@ export default function CreateClientDataDialog({ open, onClose, onCreated }) {
                     value={label}
                     onChange={(e) => setLabel(e.target.value)}
                 />
+                <TextField margin="dense" label="Para Text" fullWidth value={paraText} onChange={(e) => setParaText(e.target.value)} />
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
