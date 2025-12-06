@@ -10,6 +10,7 @@ import RoleGuard from 'utils/route-guard/RoleGuard';
 const ApprovalsPage = Loadable(lazy(() => import('views/pages/manager/approvals/index')));
 const TaskFormPage = Loadable(lazy(() => import('views/pages/manager/form-builder/index')));
 const TasksPage = Loadable(lazy(() => import('views/pages/manager/task/index')));
+const AssignedTasksPage = Loadable(lazy(() => import('views/pages/manager/assigned-tasks')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -38,6 +39,10 @@ const CoreRoutes = {
         {
             path: '/dashboard/tasks/:id?',
             element: <TasksPage />
+        },
+        {
+            path: '/dashboard/assigned-tasks',
+            element: <AssignedTasksPage />
         }
     ]
 };

@@ -4,23 +4,23 @@ import React, { createContext, useState, useContext, useMemo, useEffect } from '
 import axiosExtended from 'utils/axios';
 import { showAxiosErrorEnquebar } from 'utils/commons/functions';
 
-export const OtherAttachmentsContext = createContext();
+export const ClientDataContext = createContext();
 
-export const OtherAttachmentsProvider = ({ children }) => {
+export const ClientDataProvider = ({ children }) => {
     const { isLoggedIn } = useAuth();
     const [loadingItems, setLoadingItems] = useState(true);
     const [items, setItems] = useState([]);
 
     // ----------------------------
-    //   FETCH ALL OTHER ATTACHMENTS
+    //   FETCH ALL CLIENT DATA
     // ----------------------------
     useEffect(() => {
         if (!isLoggedIn) return;
 
-        const fetchAttachments = async () => {
+        const fetchClientData = async () => {
             try {
                 setLoadingItems(true);
-                const { data } = await axiosExtended.get('/OtherAttachment');
+                const { data } = await axiosExtended.get('/ClientData');
                 setItems(Array.isArray(data) ? data : []);
             } catch (err) {
                 showAxiosErrorEnquebar(err);
@@ -29,24 +29,24 @@ export const OtherAttachmentsProvider = ({ children }) => {
             }
         };
 
-        fetchAttachments();
+        fetchClientData();
     }, [isLoggedIn]);
 
     const itemsMap = useMemo(() => new Map(items.map((item) => [item.id, item])), [items]);
 
     const value = useMemo(() => ({ loadingItems, setLoadingItems, items, setItems, itemsMap }), [items, loadingItems, itemsMap]);
 
-    return <OtherAttachmentsContext.Provider value={value}>{children}</OtherAttachmentsContext.Provider>;
+    return <ClientDataContext.Provider value={value}>{children}</ClientDataContext.Provider>;
 };
 
-OtherAttachmentsProvider.propTypes = {
+ClientDataProvider.propTypes = {
     children: PropTypes.node.isRequired
 };
 
-export const useOtherAttachmentsContext = () => {
-    const context = useContext(OtherAttachmentsContext);
+export const useClientDataContext = () => {
+    const context = useContext(ClientDataContext);
     if (!context) {
-        throw new Error('useOtherAttachmentsContext must be used within OtherAttachmentsProvider');
+        throw new Error('useClientDataContext must be used within ClientDataProvider');
     }
     return context;
 };

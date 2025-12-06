@@ -2,10 +2,10 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconSquareRoundedCheck, IconListDetails, IconSitemap } from '@tabler/icons';
+import { IconSquareRoundedCheck, IconListDetails, IconSitemap, IconPercentage } from '@tabler/icons';
 
 // constant
-const icons = { IconSquareRoundedCheck, IconListDetails, IconSitemap };
+const icons = { IconSquareRoundedCheck, IconListDetails, IconSitemap, IconPercentage };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
@@ -35,6 +35,13 @@ const coreManagement = {
             icon: icons.IconListDetails,
             type: 'item',
             url: '/dashboard/form-builder'
+        },
+        {
+            id: 'assigned-tasks',
+            title: <FormattedMessage id="assigned-tasks" />,
+            icon: icons.IconPercentage,
+            type: 'item',
+            url: '/dashboard/assigned-tasks'
         }
     ]
 };

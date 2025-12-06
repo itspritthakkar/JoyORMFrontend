@@ -27,23 +27,17 @@ const FollowupHistoryColumn = () => {
             </Typography>
 
             <Box sx={{ overflowY: 'auto', maxHeight: '110px' }}>
-                {taskLog.map((log) => (
-                    <Typography key={log.id} fontSize={12}>
-                        {formatDate(log.createdAt)}: Received -{' '}
-                        <span style={{ color: 'green' }}>
-                            {log.clientDataLabel}: {log.clientDataValue}
-                        </span>
-                    </Typography>
-                ))}
-                {/* <Typography fontSize={12}>11/09/2025: E-mail</Typography>
-                <Typography fontSize={12}>11/09/2025: Whatsapp</Typography>
-                <Typography fontSize={12}>
-                    11/09/2025: Received - <span style={{ color: 'green' }}>Australian Address: 123 XYZ STREET, CITY, STATE PIN 1234</span>
-                </Typography>
-                <Typography fontSize={12}>12/09/2025: Call</Typography>
-                <Typography fontSize={12}>
-                    12/09/2025: Received - <span style={{ color: 'green' }}>Australian Address Proof: Received</span>
-                </Typography> */}
+                {taskLog &&
+                    taskLog
+                        .filter((log) => log.type?.toUpperCase() == 'FOLLOWUP')
+                        .map((log) => (
+                            <Typography key={log.id} fontSize={12}>
+                                {formatDate(log.createdAt)}: Received -{' '}
+                                <span style={{ color: 'green' }}>
+                                    {log.clientDataLabel}: {log.clientDataValue}
+                                </span>
+                            </Typography>
+                        ))}
             </Box>
         </Box>
     );

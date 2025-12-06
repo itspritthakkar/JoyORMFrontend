@@ -245,5 +245,6 @@
     "form-builder": "Form Builder",
     "tasks": "Tasks",
     "core": "Core",
-    "app": "App"
+    "app": "App",
+    "assigned-tasks": "Assigned Tasks"
 }
