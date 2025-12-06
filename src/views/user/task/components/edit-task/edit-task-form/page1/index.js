@@ -1,4 +1,4 @@
-import { Box, Button, Divider } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import StaticFieldsForm from './StaticFieldsForm';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -7,6 +7,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { showAxiosErrorEnquebar, showAxiosSuccessEnquebar } from 'utils/commons/functions';
 import axiosExtended from 'utils/axios';
 import { useEditTaskContext } from 'views/user/task/contexts/EditTaskContext';
+import PropTypes from 'prop-types';
+import { LoadingButton } from '@mui/lab';
 
 const staticFieldsValidationSchema = Yup.object({
     nameOfApplicant: Yup.string(),
@@ -16,11 +18,13 @@ const staticFieldsValidationSchema = Yup.object({
     emailId: Yup.string()
 });
 
-const Page1 = () => {
+const Page1 = ({ handleNext }) => {
     const { currentTask } = useEditTaskContext();
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [fields, setFields] = useState([]);
+
+    const [isSaving, setIsSaving] = useState(false);
 
     const staticFieldsFormik = useFormik({
         initialValues: {
@@ -206,11 +210,13 @@ const Page1 = () => {
         }
     };
 
-    const onSave = async () => {
-        saveStaticForm();
-        saveDynamicForm();
+    const handleSave = async () => {
+        setIsSaving(true);
+        await saveStaticForm();
+        await saveDynamicForm();
 
         showAxiosSuccessEnquebar('Saved Successfully!');
+        setIsSaving(false);
     };
 
     return (
@@ -223,28 +229,28 @@ const Page1 = () => {
                 <DyanamicFieldsForm isLoaded={isLoaded} fields={fields} formik={dynamicFieldsFormik} />
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
-                <Button
+                <LoadingButton loading={isSaving} variant="contained" color="primary" onClick={async () => await handleSave()}>
+                    Save
+                </LoadingButton>
+
+                <LoadingButton
+                    loading={isSaving}
                     variant="contained"
                     color="primary"
-                    onClick={() => {
-                        // combine both formik values if needed on save
-                        const payload = {
-                            ...dynamicFieldsFormik.values
-                        };
-                        console.log(payload);
-                        // handle save...
-                        showAxiosSuccessEnquebar('Saved successfully!');
+                    onClick={async () => {
+                        await handleSave();
+                        handleNext();
                     }}
                 >
-                    Save
-                </Button>
-
-                <Button variant="contained" color="primary" onClick={onSave}>
                     Save & Continue
-                </Button>
+                </LoadingButton>
             </Box>
         </Box>
     );
+};
+
+Page1.propTypes = {
+    handleNext: PropTypes.func.isRequired
 };
 
 export default Page1;

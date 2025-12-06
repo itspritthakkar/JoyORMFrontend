@@ -5,6 +5,7 @@ import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
 import CreateClientDataDialog from './CreateClientDataDialog';
 import { useClientDataContext } from 'views/user/task/contexts/ClientDataContext';
+import { LoadingButton } from '@mui/lab';
 
 const COLORS = {
     bluePill: '#d9f2fb',
@@ -14,11 +15,21 @@ const COLORS = {
     yellowDraft: '#fff3cc'
 };
 
-export default function ClientDataExact() {
+const Page3 = () => {
     const theme = useTheme();
 
-    const { clientDataFields, setClientDataFields, values, setValues, isMissing, setIsMissing, isAvailable, setIsAvailable, handleSave } =
-        useClientDataContext();
+    const {
+        clientDataFields,
+        setClientDataFields,
+        values,
+        setValues,
+        isMissing,
+        setIsMissing,
+        isAvailable,
+        setIsAvailable,
+        handleSave,
+        isSaving
+    } = useClientDataContext();
 
     const [openCreate, setOpenCreate] = useState(false);
 
@@ -150,13 +161,12 @@ export default function ClientDataExact() {
 
             {/* Save Buttons */}
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
-                <Button variant="contained" color="primary" onClick={handleSave}>
+                <LoadingButton loading={isSaving} variant="contained" color="primary" onClick={handleSave}>
                     Save
-                </Button>
-                <Button variant="contained" color="primary" onClick={handleSave}>
-                    Save & Continue
-                </Button>
+                </LoadingButton>
             </Box>
         </Box>
     );
-}
+};
+
+export default Page3;

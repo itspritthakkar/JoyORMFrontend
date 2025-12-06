@@ -30,11 +30,11 @@ const coreManagement = {
             url: '/dashboard/approvals'
         },
         {
-            id: 'task-form',
-            title: <FormattedMessage id="task-form" />,
+            id: 'form-builder',
+            title: <FormattedMessage id="form-builder" />,
             icon: icons.IconListDetails,
             type: 'item',
-            url: '/dashboard/task-form'
+            url: '/dashboard/form-builder'
         }
     ]
 };

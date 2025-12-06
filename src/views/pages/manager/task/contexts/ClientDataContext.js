@@ -19,6 +19,8 @@ export const ClientDataProvider = ({ children }) => {
     const [isAvailable, setIsAvailable] = useState({});
     const [valuesResponse, setValuesResponse] = useState({});
 
+    const [isSaving, setIsSaving] = useState(false);
+
     // ------------------ LOAD ------------------
     useEffect(() => {
         if (!taskItemId) return;
@@ -74,6 +76,7 @@ export const ClientDataProvider = ({ children }) => {
 
     // ------------------ SAVE ------------------
     const handleSave = useCallback(async () => {
+        setIsSaving(true);
         try {
             const res = await axiosExtended.post('/ClientDataValue', buildPayload());
             setValuesResponse(res.data);
@@ -81,6 +84,8 @@ export const ClientDataProvider = ({ children }) => {
             fetchTaskLog();
         } catch (err) {
             console.error(err);
+        } finally {
+            setIsSaving(false);
         }
     }, [buildPayload, fetchTaskLog]);
 
@@ -95,9 +100,11 @@ export const ClientDataProvider = ({ children }) => {
             isAvailable,
             setIsAvailable,
             valuesResponse,
-            handleSave
+            handleSave,
+            isSaving,
+            setIsSaving
         }),
-        [clientDataFields, handleSave, isAvailable, isMissing, values, valuesResponse]
+        [clientDataFields, handleSave, isAvailable, isMissing, isSaving, values, valuesResponse]
     );
 
     return <ClientDataContext.Provider value={value}>{children}</ClientDataContext.Provider>;

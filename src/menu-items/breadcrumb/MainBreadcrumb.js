@@ -62,11 +62,11 @@ const pages = {
             url: '/dashboard/approvals'
         },
         {
-            id: 'task-form',
-            title: <FormattedMessage id="task-form" />,
+            id: 'form-builder',
+            title: <FormattedMessage id="form-builder" />,
             icon: icons.ListAltOutlinedIcon,
             type: 'item',
-            url: '/dashboard/task-form'
+            url: '/dashboard/form-builder'
         },
         {
             id: 'tasks',

@@ -13,6 +13,7 @@ export const OtherAttachmentValuesProvider = ({ children }) => {
     const [loadingValues, setLoadingValues] = useState(true);
     const [selectedItems, setSelectedItems] = useState(new Set());
     const [selectedItemsLocal, setSelectedItemsLocal] = useState(new Set());
+    const [isSaving, setIsSaving] = useState(false);
 
     // -------------------------------------
     //   FETCH SELECTED ATTACHMENTS FOR TASK
@@ -51,6 +52,7 @@ export const OtherAttachmentValuesProvider = ({ children }) => {
             attachmentIds: Array.from(selectedItemsLocal)
         };
 
+        setIsSaving(true);
         try {
             const { data } = await axiosExtended.post('/OtherAttachmentValue', payload);
 
@@ -58,6 +60,8 @@ export const OtherAttachmentValuesProvider = ({ children }) => {
             showAxiosSuccessEnquebar('Saved successfully!');
         } catch (err) {
             showAxiosErrorEnquebar(err);
+        } finally {
+            setIsSaving(false);
         }
     }, [selectedItemsLocal, taskItemId]);
 
@@ -69,9 +73,11 @@ export const OtherAttachmentValuesProvider = ({ children }) => {
             setSelectedItems,
             selectedItemsLocal,
             setSelectedItemsLocal,
-            handleSave
+            handleSave,
+            isSaving,
+            setIsSaving
         }),
-        [handleSave, loadingValues, selectedItems, selectedItemsLocal]
+        [handleSave, isSaving, loadingValues, selectedItems, selectedItemsLocal]
     );
 
     return <OtherAttachmentValuesContext.Provider value={value}>{children}</OtherAttachmentValuesContext.Provider>;

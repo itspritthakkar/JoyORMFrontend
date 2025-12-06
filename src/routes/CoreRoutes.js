@@ -8,7 +8,7 @@ import RoleGuard from 'utils/route-guard/RoleGuard';
 
 // main routing import
 const ApprovalsPage = Loadable(lazy(() => import('views/pages/manager/approvals/index')));
-const TaskFormPage = Loadable(lazy(() => import('views/pages/manager/task-form/index')));
+const TaskFormPage = Loadable(lazy(() => import('views/pages/manager/form-builder/index')));
 const TasksPage = Loadable(lazy(() => import('views/pages/manager/task/index')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -32,7 +32,7 @@ const CoreRoutes = {
             element: <ApprovalsPage />
         },
         {
-            path: '/dashboard/task-form',
+            path: '/dashboard/form-builder',
             element: <TaskFormPage />
         },
         {

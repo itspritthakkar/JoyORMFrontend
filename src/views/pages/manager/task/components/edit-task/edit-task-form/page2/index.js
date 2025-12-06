@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { Box, useTheme, Button, Checkbox, IconButton } from '@mui/material';
 import { Add } from '@mui/icons-material';
-import CreateOtherAttachment from 'views/pages/manager/approvals/CreateOtherAttachment';
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
+import CreateOtherAttachment from 'views/pages/manager/approvals/CreateOtherAttachment';
 import { useOtherAttachmentValuesContext } from 'views/pages/manager/task/contexts/OtherAttachmentValuesContext';
 import { useOtherAttachmentsContext } from 'contexts/OtherAttachmentsContext';
+import PropTypes from 'prop-types';
+import { LoadingButton } from '@mui/lab';
 
-const Page2 = () => {
+const Page2 = ({ handleNext }) => {
     const theme = useTheme();
 
-    const { items, loadingItems } = useOtherAttachmentsContext();
-    const { loadingValues, selectedItemsLocal, setSelectedItemsLocal, handleSave } = useOtherAttachmentValuesContext();
+    const { loadingItems, items } = useOtherAttachmentsContext();
+    const { loadingValues, selectedItemsLocal, setSelectedItemsLocal, handleSave, isSaving } = useOtherAttachmentValuesContext();
 
     // dialog
     const [open, setOpen] = useState(false);
@@ -90,16 +92,27 @@ const Page2 = () => {
 
             {/* Footer Save Buttons */}
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 1 }}>
-                <Button variant="contained" color="primary" onClick={handleSave}>
+                <LoadingButton loading={isSaving} variant="contained" color="primary" onClick={async () => await handleSave()}>
                     Save
-                </Button>
+                </LoadingButton>
 
-                <Button variant="contained" color="primary" onClick={handleSave}>
+                <LoadingButton
+                    loading={isSaving}
+                    variant="contained"
+                    color="primary"
+                    onClick={async () => {
+                        await handleSave();
+                        handleNext();
+                    }}
+                >
                     Save & Continue
-                </Button>
+                </LoadingButton>
             </Box>
         </Box>
     );
 };
 
+Page2.propTypes = {
+    handleNext: PropTypes.func.isRequired
+};
 export default Page2;
