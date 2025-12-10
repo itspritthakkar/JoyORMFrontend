@@ -11,7 +11,7 @@ export const ClientDataProvider = ({ children }) => {
     const { currentTask } = useEditTaskContext();
     const taskItemId = currentTask?.data?.id;
 
-    const { fetchTaskLog } = useTaskLogContext();
+    const { fetchTaskLog, prependTaskLog } = useTaskLogContext();
 
     const [clientDataFields, setClientDataFields] = useState([]);
     const [values, setValues] = useState({});
@@ -20,6 +20,7 @@ export const ClientDataProvider = ({ children }) => {
     const [valuesResponse, setValuesResponse] = useState({});
 
     const [isSaving, setIsSaving] = useState(false);
+    const [isCreatingSocialLog, setIsCreatingSocialLog] = useState(null);
 
     // ------------------ LOAD ------------------
     useEffect(() => {
@@ -84,10 +85,45 @@ export const ClientDataProvider = ({ children }) => {
             fetchTaskLog();
         } catch (err) {
             console.error(err);
+            showAxiosErrorEnquebar(err);
         } finally {
             setIsSaving(false);
         }
     }, [buildPayload, fetchTaskLog]);
+
+    const createSocialFollowupLog = useCallback(
+        async (channel) => {
+            setIsCreatingSocialLog(channel);
+            try {
+                const { data } = await axiosExtended.post(`/TaskLog`, {
+                    taskItemId: taskItemId,
+                    clientDataId: null,
+                    clientDataValueId: null,
+                    type: channel
+                });
+
+                data.createdAt =
+                    data.createdAt && data.createdAt.endsWith('Z')
+                        ? data.createdAt.substring(0, data.createdAt.length - 1)
+                        : data.createdAt;
+
+                data.updatedAt =
+                    data.updatedAt && data.updatedAt.endsWith('Z')
+                        ? data.updatedAt.substring(0, data.updatedAt.length - 1)
+                        : data.updatedAt;
+
+                prependTaskLog(data);
+
+                showAxiosSuccessEnquebar('Social follow-up log created successfully!');
+            } catch (err) {
+                console.error(err);
+                showAxiosErrorEnquebar(err);
+            } finally {
+                setIsCreatingSocialLog(null);
+            }
+        },
+        [taskItemId, prependTaskLog]
+    );
 
     const value = useMemo(
         () => ({
@@ -102,9 +138,21 @@ export const ClientDataProvider = ({ children }) => {
             valuesResponse,
             handleSave,
             isSaving,
-            setIsSaving
+            setIsSaving,
+            createSocialFollowupLog,
+            isCreatingSocialLog
         }),
-        [clientDataFields, handleSave, isAvailable, isMissing, isSaving, values, valuesResponse]
+        [
+            clientDataFields,
+            createSocialFollowupLog,
+            handleSave,
+            isAvailable,
+            isMissing,
+            isSaving,
+            values,
+            valuesResponse,
+            isCreatingSocialLog
+        ]
     );
 
     return <ClientDataContext.Provider value={value}>{children}</ClientDataContext.Provider>;

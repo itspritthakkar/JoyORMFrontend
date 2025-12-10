@@ -6,6 +6,9 @@ import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
 import CreateClientDataDialog from './CreateClientDataDialog';
 import { useClientDataContext } from 'views/pages/manager/task/contexts/ClientDataContext';
 import { LoadingButton } from '@mui/lab';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import EmailIcon from '@mui/icons-material/Email';
+import CallIcon from '@mui/icons-material/Call';
 
 const COLORS = {
     bluePill: '#d9f2fb',
@@ -28,7 +31,9 @@ const Page3 = () => {
         isAvailable,
         setIsAvailable,
         handleSave,
-        isSaving
+        isSaving,
+        createSocialFollowupLog,
+        isCreatingSocialLog
     } = useClientDataContext();
 
     const [openCreate, setOpenCreate] = useState(false);
@@ -41,9 +46,81 @@ const Page3 = () => {
         <Box>
             <Box sx={{ overflowY: 'auto', height: '30vh' }}>
                 <Grid container spacing={1}>
-                    <Grid item xs={8}>
+                    <Grid item xs={6}>
                         <Typography sx={{ fontWeight: 700 }}>Client Data</Typography>
                     </Grid>
+
+                    <Grid item xs={2} sx={{ textAlign: 'right' }}>
+                        <Box sx={{ display: 'flex', height: '100%', justifyContent: 'flex-end', alignItems: 'center', gap: 1 }}>
+                            {isCreatingSocialLog === 'SOCIAL_WHATSAPP' && (
+                                <LoadingButton
+                                    size="small"
+                                    loading
+                                    sx={{
+                                        backgroundColor: '#f2f2f2',
+                                        minHeight: 32,
+                                        minWidth: 32,
+                                        borderRadius: '8px',
+                                        '& .MuiCircularProgress-root': {
+                                            color: '#25D366'
+                                        }
+                                    }}
+                                />
+                            )}
+                            {isCreatingSocialLog !== 'SOCIAL_WHATSAPP' && (
+                                <IconButton
+                                    size="small"
+                                    sx={{ color: '#25D366' }}
+                                    onClick={() => createSocialFollowupLog('SOCIAL_WHATSAPP')}
+                                >
+                                    <WhatsAppIcon />
+                                </IconButton>
+                            )}
+
+                            {isCreatingSocialLog === 'SOCIAL_EMAIL' && (
+                                <LoadingButton
+                                    size="small"
+                                    loading
+                                    sx={{
+                                        backgroundColor: '#f2f2f2',
+                                        minHeight: 32,
+                                        minWidth: 32,
+                                        borderRadius: '8px',
+                                        '& .MuiCircularProgress-root': {
+                                            color: '#FFC107'
+                                        }
+                                    }}
+                                />
+                            )}
+                            {isCreatingSocialLog !== 'SOCIAL_EMAIL' && (
+                                <IconButton size="small" sx={{ color: '#FFC107' }} onClick={() => createSocialFollowupLog('SOCIAL_EMAIL')}>
+                                    <EmailIcon />
+                                </IconButton>
+                            )}
+
+                            {isCreatingSocialLog === 'SOCIAL_CALL' && (
+                                <LoadingButton
+                                    size="small"
+                                    loading
+                                    sx={{
+                                        backgroundColor: '#f2f2f2',
+                                        minHeight: 32,
+                                        minWidth: 32,
+                                        borderRadius: '8px',
+                                        '& .MuiCircularProgress-root': {
+                                            color: '#2196F3'
+                                        }
+                                    }}
+                                />
+                            )}
+                            {isCreatingSocialLog !== 'SOCIAL_CALL' && (
+                                <IconButton size="small" sx={{ color: '#2196F3' }} onClick={() => createSocialFollowupLog('SOCIAL_CALL')}>
+                                    <CallIcon />
+                                </IconButton>
+                            )}
+                        </Box>
+                    </Grid>
+
                     <Grid item xs={4}>
                         <Box sx={{ background: COLORS.yellowDraft, py: 2, borderRadius: 2, textAlign: 'center' }}>
                             <Typography sx={{ fontSize: 12 }}>Automated followup message draft</Typography>

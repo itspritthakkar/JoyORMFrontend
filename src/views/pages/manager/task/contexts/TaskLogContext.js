@@ -34,7 +34,15 @@ export const TaskLogProvider = ({ children }) => {
         }
     }, [fetchTaskLog, taskItemId]);
 
-    const value = useMemo(() => ({ taskLog, setTaskLog, fetchTaskLog }), [fetchTaskLog, taskLog]);
+    // Prepend to task log
+    const prependTaskLog = useCallback(
+        (entry) => {
+            setTaskLog((prevLogs) => [entry, ...prevLogs]);
+        },
+        [setTaskLog]
+    );
+
+    const value = useMemo(() => ({ taskLog, setTaskLog, fetchTaskLog, prependTaskLog }), [fetchTaskLog, prependTaskLog, taskLog]);
 
     return <TaskLogContext.Provider value={value}>{children}</TaskLogContext.Provider>;
 };
