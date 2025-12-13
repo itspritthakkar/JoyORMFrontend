@@ -145,3 +145,19 @@ export function a11yProps(index, tabName) {
         'aria-controls': `${tabName}-tabpanel-${index}`
     };
 }
+
+export const downloadBlob = (response) => {
+    const blob = new Blob([response.data], {
+        type: response.headers['content-type']
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = response.headers['content-disposition']?.split('filename=')[1]?.replace(/"/g, '') || 'download';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+};

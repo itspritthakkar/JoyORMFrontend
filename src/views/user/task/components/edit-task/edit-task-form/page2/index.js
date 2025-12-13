@@ -7,6 +7,8 @@ import { useOtherAttachmentValuesContext } from 'views/user/task/contexts/OtherA
 import { useOtherAttachmentsContext } from 'contexts/OtherAttachmentsContext';
 import PropTypes from 'prop-types';
 import { LoadingButton } from '@mui/lab';
+import axiosExtended from 'utils/axios';
+import { downloadBlob } from 'utils/commons/functions';
 
 const Page2 = ({ handleNext }) => {
     const theme = useTheme();
@@ -27,6 +29,18 @@ const Page2 = ({ handleNext }) => {
     };
 
     const handleOpen = () => setOpen(true);
+
+    const downloadAttachment = async (id) => {
+        try {
+            const response = await axiosExtended.get(`/OtherAttachment/${id}/file`, {
+                responseType: 'blob'
+            });
+
+            downloadBlob(response);
+        } catch (err) {
+            console.error('Failed to download attachment', err);
+        }
+    };
 
     if (loadingItems || loadingValues) return <>Loading...</>;
 
@@ -80,7 +94,7 @@ const Page2 = ({ handleNext }) => {
 
                         {/* Download Button */}
                         <Box sx={{ backgroundColor: `${theme.palette.primary.main}4D`, borderRadius: 2 }}>
-                            <IconButton href={item.attachmentPath} target="_blank" download sx={{ color: theme.palette.primary.main }}>
+                            <IconButton onClick={() => downloadAttachment(item.id)} sx={{ color: theme.palette.primary.main }}>
                                 <DownloadRoundedIcon color="inherit" />
                             </IconButton>
                         </Box>
