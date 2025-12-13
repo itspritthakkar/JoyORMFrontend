@@ -32,7 +32,15 @@ const TaskList = () => {
                 {tasks.length > 0 && (
                     <Box sx={{ height: currentTask.data.id ? '48vh' : '60vh', overflowY: 'auto' }}>
                         {tasks.map((task) => (
-                            <SubCard key={task.id} onClick={() => selectTaskToEdit(task)} sx={{ mb: 1, cursor: 'pointer' }}>
+                            <SubCard
+                                key={task.id}
+                                onClick={() => selectTaskToEdit(task)}
+                                sx={{
+                                    mb: 1,
+                                    cursor: 'pointer',
+                                    ...(task.id === currentTask.data.id ? { border: '2px solid', borderColor: 'primary.main' } : {})
+                                }}
+                            >
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                     <Box>
                                         <Typography variant="h5" sx={{ mb: 0.5, fontSize: '12px' }}>

@@ -62,6 +62,12 @@ const DyanamicFieldsForm = () => {
     const [deleteFieldId, setDeleteFieldId] = useState(null);
     const [deleteFieldLabel, setDeleteFieldLabel] = useState('');
 
+    // delete option dialog states
+    const [deleteOptionDialogOpen, setDeleteOptionDialogOpen] = useState(false);
+    const [deleteOptionId, setDeleteOptionId] = useState(null);
+    const [deleteOptionLabel, setDeleteOptionLabel] = useState('');
+    const [deleteOptionFieldId, setDeleteOptionFieldId] = useState(null);
+
     useEffect(() => {
         const fetchDynamicFields = async () => {
             try {
@@ -269,6 +275,20 @@ const DyanamicFieldsForm = () => {
         setDeleteFieldLabel('');
     };
 
+    const openDeleteOptionDialog = (optionId, optionLabel, fieldId) => {
+        setDeleteOptionId(optionId);
+        setDeleteOptionLabel(optionLabel ?? '');
+        setDeleteOptionFieldId(fieldId);
+        setDeleteOptionDialogOpen(true);
+    };
+
+    const closeDeleteOptionDialog = () => {
+        setDeleteOptionDialogOpen(false);
+        setDeleteOptionId(null);
+        setDeleteOptionLabel('');
+        setDeleteOptionFieldId(null);
+    };
+
     const deleteDynamicFormField = async (id) => {
         if (!id) return;
         try {
@@ -282,6 +302,25 @@ const DyanamicFieldsForm = () => {
                 return next;
             });
             closeDeleteDialog();
+        } catch (err) {
+            showAxiosErrorEnquebar(err);
+        }
+    };
+
+    const deleteDynamicFormOption = async (id, fieldId) => {
+        if (!id || !fieldId) return;
+        try {
+            await axiosExtended.delete(`/DynamicFormOption/${id}`);
+            // remove from local state
+            setFields((prev) =>
+                prev.map((f) => {
+                    if (f.id === fieldId) {
+                        return { ...f, options: f.options.filter((o) => o.id !== id) };
+                    }
+                    return f;
+                })
+            );
+            closeDeleteOptionDialog();
         } catch (err) {
             showAxiosErrorEnquebar(err);
         }
@@ -529,21 +568,41 @@ const DyanamicFieldsForm = () => {
                                             </Button>
 
                                             {f.options.map((option) => (
-                                                <Button
-                                                    key={option.id}
-                                                    fullWidth
-                                                    variant="contained"
-                                                    sx={{
-                                                        mb: 1,
-                                                        backgroundColor: `${theme.palette.primary.main}4D`,
-                                                        color: theme.palette.primary.dark,
-                                                        boxShadow: 'none',
-                                                        '&:hover': { backgroundColor: `${theme.palette.primary.main}66`, boxShadow: 'none' }
-                                                    }}
-                                                    size="small"
-                                                >
-                                                    {option.label}
-                                                </Button>
+                                                <Box key={option.id} sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                                                    <Button
+                                                        fullWidth
+                                                        variant="contained"
+                                                        sx={{
+                                                            backgroundColor: `${theme.palette.primary.main}4D`,
+                                                            color: theme.palette.primary.dark,
+                                                            boxShadow: 'none',
+                                                            '&:hover': {
+                                                                backgroundColor: `${theme.palette.primary.main}66`,
+                                                                boxShadow: 'none'
+                                                            }
+                                                        }}
+                                                        size="small"
+                                                    >
+                                                        {option.label}
+                                                    </Button>
+                                                    <Box
+                                                        sx={{
+                                                            height: 35,
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            backgroundColor: `${theme.palette.error.light}50`,
+                                                            borderRadius: 2
+                                                        }}
+                                                    >
+                                                        <IconButton
+                                                            sx={{ color: theme.palette.error.main }}
+                                                            onClick={() => openDeleteOptionDialog(option.id, option.label, f.id)}
+                                                        >
+                                                            <DeleteIcon color="inherit" fontSize="small" />
+                                                        </IconButton>
+                                                    </Box>
+                                                </Box>
                                             ))}
                                         </div>
                                     );
@@ -675,6 +734,27 @@ const DyanamicFieldsForm = () => {
                             <DialogActions>
                                 <Button onClick={closeDeleteDialog}>Cancel</Button>
                                 <Button color="error" variant="contained" onClick={() => deleteDynamicFormField(deleteFieldId)}>
+                                    Delete
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+
+                        {/* Delete Option Confirmation Dialog */}
+                        <Dialog open={deleteOptionDialogOpen} onClose={closeDeleteOptionDialog} maxWidth="xs" fullWidth>
+                            <DialogTitle>Delete option</DialogTitle>
+                            <DialogContent>
+                                <Typography>
+                                    Are you sure you want to delete the option <strong>{deleteOptionLabel}</strong>? This action cannot be
+                                    undone.
+                                </Typography>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={closeDeleteOptionDialog}>Cancel</Button>
+                                <Button
+                                    color="error"
+                                    variant="contained"
+                                    onClick={() => deleteDynamicFormOption(deleteOptionId, deleteOptionFieldId)}
+                                >
                                     Delete
                                 </Button>
                             </DialogActions>
