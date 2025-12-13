@@ -4,10 +4,12 @@ import { useEditTaskContext } from './EditTaskContext';
 import axiosExtended from 'utils/axios';
 import { showAxiosErrorEnquebar, showAxiosSuccessEnquebar } from 'utils/commons/functions';
 import { useTaskLogContext } from './TaskLogContext';
+import { useTaskContext } from './TaskContext';
 
 export const ClientDataContext = createContext();
 
 export const ClientDataProvider = ({ children }) => {
+    const { setShouldRefetch } = useTaskContext();
     const { currentTask } = useEditTaskContext();
     const taskItemId = currentTask?.data?.id;
 
@@ -83,13 +85,14 @@ export const ClientDataProvider = ({ children }) => {
             setValuesResponse(res.data);
             showAxiosSuccessEnquebar('Saved successfully!');
             fetchTaskLog();
+            setShouldRefetch(true);
         } catch (err) {
             console.error(err);
             showAxiosErrorEnquebar(err);
         } finally {
             setIsSaving(false);
         }
-    }, [buildPayload, fetchTaskLog]);
+    }, [buildPayload, fetchTaskLog, setShouldRefetch]);
 
     const createSocialFollowupLog = useCallback(
         async (channel) => {

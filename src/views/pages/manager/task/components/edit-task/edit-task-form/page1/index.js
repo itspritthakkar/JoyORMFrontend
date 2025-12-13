@@ -9,6 +9,7 @@ import axiosExtended from 'utils/axios';
 import { useEditTaskContext } from 'views/pages/manager/task/contexts/EditTaskContext';
 import PropTypes from 'prop-types';
 import { LoadingButton } from '@mui/lab';
+import { useTaskContext } from 'views/pages/manager/task/contexts/TaskContext';
 
 const staticFieldsValidationSchema = Yup.object({
     nameOfApplicant: Yup.string(),
@@ -19,6 +20,7 @@ const staticFieldsValidationSchema = Yup.object({
 });
 
 const Page1 = ({ handleNext }) => {
+    const { setShouldRefetch } = useTaskContext();
     const { currentTask } = useEditTaskContext();
 
     const [isLoaded, setIsLoaded] = useState(false);
@@ -214,6 +216,8 @@ const Page1 = ({ handleNext }) => {
         setIsSaving(true);
         await saveStaticForm();
         await saveDynamicForm();
+
+        setShouldRefetch(true);
 
         showAxiosSuccessEnquebar('Saved Successfully!');
         setIsSaving(false);

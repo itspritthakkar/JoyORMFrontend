@@ -44,7 +44,7 @@ const Page3 = () => {
 
     return (
         <Box>
-            <Box sx={{ overflowY: 'auto', height: '40vh' }}>
+            <Box sx={{ overflowY: 'auto', height: '30vh' }}>
                 <Grid container spacing={1}>
                     <Grid item xs={6}>
                         <Typography sx={{ fontWeight: 700 }}>Client Data</Typography>

@@ -5,7 +5,7 @@ import { useTaskContext } from '../contexts/TaskContext';
 
 const useTaskService = () => {
     const { setShouldRefetch } = useTaskContext();
-    const { getTasks, getTaskById, createTask, updateTask } = useTaskRepository();
+    const { getTasks, getTaskById, createTask, updateTask, deleteTask } = useTaskRepository();
 
     const fetchTasks = useCallback(
         async (params) => {
@@ -56,7 +56,20 @@ const useTaskService = () => {
         [updateTask, setShouldRefetch]
     );
 
-    return { fetchTasks, fetchTaskById, createNewTask, updateExistingTask };
+    const deleteExistingTask = useCallback(
+        async (taskId) => {
+            try {
+                const data = await deleteTask(taskId);
+                setShouldRefetch(true);
+                return data;
+            } catch (error) {
+                showAxiosErrorEnquebar('Failed to delete task: ', error);
+            }
+        },
+        [deleteTask, setShouldRefetch]
+    );
+
+    return { fetchTasks, fetchTaskById, createNewTask, updateExistingTask, deleteExistingTask };
 };
 
 export default useTaskService;

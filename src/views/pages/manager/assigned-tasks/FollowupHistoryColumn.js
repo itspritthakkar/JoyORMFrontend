@@ -1,15 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-
-function formatDate(dateString) {
-    const date = new Date(dateString);
-
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months start at 0
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-}
+import { formatDateWithTime } from 'utils/commons/functions';
 
 const FollowupHistoryColumn = ({ taskLogs }) => {
     if (!taskLogs || taskLogs.length === 0) return null;
@@ -33,7 +24,8 @@ const FollowupHistoryColumn = ({ taskLogs }) => {
                         console.log(log);
                         return (
                             <Typography key={log.id} fontSize={12}>
-                                {formatDate(log.createdAt)}: Received - <span style={{ color: 'red' }}>{log.clientDataLabel}: </span>
+                                {formatDateWithTime(log.createdAt)}: Received -{' '}
+                                <span style={{ color: 'red' }}>{log.clientDataLabel}: </span>
                                 <span style={{ color: 'green' }}>{log.clientDataValue}</span>
                             </Typography>
                         );

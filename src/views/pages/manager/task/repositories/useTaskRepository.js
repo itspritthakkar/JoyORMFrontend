@@ -55,7 +55,21 @@ const useTaskRepository = () => {
         return data;
     }, []);
 
-    return { getTasks, getTaskById, createTask, updateTask };
+    const updateTaskStatusComplete = useCallback(async (taskId) => {
+        const config = {
+            url: `/TaskItem/${taskId}/MarkComplete`,
+            method: 'put'
+        };
+        const { data } = await axiosExtended.request(config);
+        return data;
+    }, []);
+
+    const deleteTask = useCallback(async (taskId) => {
+        const { data } = await axiosExtended.delete(`/TaskItem/${taskId}`);
+        return data;
+    }, []);
+
+    return { getTasks, getTaskById, createTask, updateTask, updateTaskStatusComplete, deleteTask };
 };
 
 export default useTaskRepository;

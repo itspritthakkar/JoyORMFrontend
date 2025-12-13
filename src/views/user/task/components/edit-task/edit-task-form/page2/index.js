@@ -51,7 +51,7 @@ const Page2 = ({ handleNext }) => {
                     display: 'flex',
                     flexDirection: 'column',
                     overflowY: 'auto',
-                    height: '40vh',
+                    height: '30vh',
                     maxWidth: { xs: '100%', md: 350 }
                 }}
             >

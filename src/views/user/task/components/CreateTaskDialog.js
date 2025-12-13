@@ -22,7 +22,7 @@ import { showAxiosErrorEnquebar } from 'utils/commons/functions';
 const CreateTaskDialog = () => {
     const { setShouldRefetch } = useTaskContext();
     const { isCreateTaskDialogOpen, handleCloseCreateTaskDialog, isSaving } = useCreateTaskContext();
-    const { applicationTypes } = useTaskHelperContext();
+    const { applicationTypes, users, selectedUser, setSelectedUser } = useTaskHelperContext();
 
     const { createNewTask } = useTaskService();
 
@@ -33,6 +33,11 @@ const CreateTaskDialog = () => {
     const [emailId, setEmailId] = useState('');
 
     const handleSave = async () => {
+        if (!selectedUser) {
+            showAxiosErrorEnquebar({ message: 'Assign By field is mandatory' });
+            return;
+        }
+
         // Validate: at least one field must be non-empty / non-null
         const hasValue =
             (nameOfApplicant && String(nameOfApplicant).trim() !== '') ||
@@ -47,6 +52,7 @@ const CreateTaskDialog = () => {
         }
 
         await createNewTask({
+            assignedByUserId: selectedUser.id,
             nameOfApplicant: nameOfApplicant.trim() || null,
             passportNo: passportNo.trim() || null,
             applicationTypeId: selectedApplicationType ? selectedApplicationType.id : null,
@@ -79,6 +85,22 @@ const CreateTaskDialog = () => {
 
             <DialogContent dividers>
                 <Stack spacing={1}>
+                    <Box>
+                        <Typography variant="h5" sx={{ ml: 0.5, mb: 1 }}>
+                            Assigned By
+                        </Typography>
+
+                        {users.isLoaded && !users.isError && (
+                            <Autocomplete
+                                options={users.data}
+                                getOptionLabel={(option) => `${option.email} (${option.firstName} ${option.lastName})`}
+                                value={selectedUser}
+                                onChange={(event, newValue) => setSelectedUser(newValue)}
+                                renderInput={(params) => <TextField {...params} placeholder="Select User" variant="outlined" />}
+                                fullWidth
+                            />
+                        )}
+                    </Box>
                     <Box>
                         <Typography variant="h5" sx={{ ml: 0.5, mb: 1 }}>
                             Name of Applicant

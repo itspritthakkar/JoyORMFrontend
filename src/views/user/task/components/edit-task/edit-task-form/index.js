@@ -6,6 +6,7 @@ import Page1 from './page1/index';
 import Page2 from './page2/index';
 import Page3 from './Page3/index';
 import PropTypes from 'prop-types';
+import EditTaskHeader from './EditTaskHeader';
 
 const withNextHandler = (Component) => {
     const EnhancedComponent = ({ handleNext, ...props }) => {
@@ -43,6 +44,8 @@ const EditTaskForm = () => {
 
     return (
         <Box>
+            <EditTaskHeader />
+
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label={PAGES_TAB}>
                     {TABS.map((tab, index) => (

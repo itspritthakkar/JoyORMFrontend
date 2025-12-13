@@ -11,6 +11,14 @@ export const TaskHelperProvider = ({ children }) => {
         data: []
     });
 
+    const [users, setUsers] = useState({
+        isLoaded: false,
+        isError: false,
+        data: []
+    });
+
+    const [selectedUser, setSelectedUser] = useState(null);
+
     useEffect(() => {
         const fetchApplicationTypes = async () => {
             try {
@@ -27,7 +35,30 @@ export const TaskHelperProvider = ({ children }) => {
         fetchApplicationTypes();
     }, []);
 
-    const value = useMemo(() => ({ applicationTypes, setApplicationTypes }), [applicationTypes]);
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                setUsers({ isLoaded: false, isError: false, data: [] });
+                const { data } = await axiosExtended.get('/User?role=Manager&enablePagination=false');
+                const { users } = data;
+                if (Array.isArray(users) && users.length > 0) {
+                    setSelectedUser(users[0]);
+                }
+                setUsers({ isLoaded: true, isError: false, data: Array.isArray(users) ? users : [] });
+            } catch (err) {
+                setUsers({ isLoaded: true, isError: true, data: [] });
+            } finally {
+                setUsers((prev) => ({ ...prev, isLoaded: true }));
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+    const value = useMemo(
+        () => ({ applicationTypes, setApplicationTypes, users, setUsers, selectedUser, setSelectedUser }),
+        [applicationTypes, users, selectedUser]
+    );
 
     return <TaskHelperContext.Provider value={value}>{children}</TaskHelperContext.Provider>;
 };

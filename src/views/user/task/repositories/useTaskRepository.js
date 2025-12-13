@@ -21,7 +21,7 @@ const useTaskRepository = () => {
         return data;
     }, []);
 
-    const createTask = useCallback(async ({ nameOfApplicant, passportNo, applicationTypeId, contactNo, emailId, assignedToUserId }) => {
+    const createTask = useCallback(async ({ nameOfApplicant, passportNo, applicationTypeId, contactNo, emailId, assignedByUserId }) => {
         const config = {
             url: '/TaskItem',
             method: 'post',
@@ -31,14 +31,14 @@ const useTaskRepository = () => {
                 applicationTypeId,
                 contactNo,
                 emailId,
-                assignedToUserId
+                assignedByUserId
             }
         };
         const { data } = await axiosExtended.request(config);
         return data;
     }, []);
 
-    const updateTask = useCallback(async ({ id, nameOfApplicant, passportNo, applicationTypeId, contactNo, emailId, assignedToUserId }) => {
+    const updateTask = useCallback(async ({ id, nameOfApplicant, passportNo, applicationTypeId, contactNo, emailId, assignedByUserId }) => {
         const config = {
             url: `/TaskItem/${id}`,
             method: 'put',
@@ -48,14 +48,19 @@ const useTaskRepository = () => {
                 applicationTypeId,
                 contactNo,
                 emailId,
-                assignedToUserId
+                assignedByUserId
             }
         };
         const { data } = await axiosExtended.request(config);
         return data;
     }, []);
 
-    return { getTasks, getTaskById, createTask, updateTask };
+    const deleteTask = useCallback(async (taskId) => {
+        const { data } = await axiosExtended.delete(`/TaskItem/${taskId}`);
+        return data;
+    }, []);
+
+    return { getTasks, getTaskById, createTask, updateTask, deleteTask };
 };
 
 export default useTaskRepository;
