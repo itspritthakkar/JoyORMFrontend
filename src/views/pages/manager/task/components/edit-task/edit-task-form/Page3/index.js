@@ -3,12 +3,14 @@ import { Box, Grid, Typography, IconButton, TextField, Button, useTheme } from '
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import CreateClientDataDialog from './CreateClientDataDialog';
 import { useClientDataContext } from 'views/pages/manager/task/contexts/ClientDataContext';
 import { LoadingButton } from '@mui/lab';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
 import CallIcon from '@mui/icons-material/Call';
+import { showAxiosSuccessEnquebar } from 'utils/commons/functions';
 
 const COLORS = {
     bluePill: '#d9f2fb',
@@ -37,9 +39,13 @@ const Page3 = () => {
     } = useClientDataContext();
 
     const [openCreate, setOpenCreate] = useState(false);
+    const [copied, setCopied] = useState({});
 
-    const copyToClipboard = (text) => {
+    const handleCopy = (id, text) => {
         navigator.clipboard?.writeText(text);
+        setCopied((prev) => ({ ...prev, [id]: true }));
+        showAxiosSuccessEnquebar('Copied to clipboard');
+        setTimeout(() => setCopied((prev) => ({ ...prev, [id]: false })), 2000);
     };
 
     return (
@@ -208,8 +214,8 @@ const Page3 = () => {
                                                 }}
                                             >
                                                 <Typography sx={{ flex: 1, fontSize: 13 }}>{f.paraText}</Typography>
-                                                <IconButton size="small" onClick={() => copyToClipboard(f.paraText)}>
-                                                    <ContentCopyRoundedIcon />
+                                                <IconButton size="small" onClick={() => handleCopy(id, f.paraText)}>
+                                                    {copied[id] ? <DoneRoundedIcon /> : <ContentCopyRoundedIcon />}
                                                 </IconButton>
                                             </Box>
                                         )}
